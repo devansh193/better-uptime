@@ -17,7 +17,6 @@ export const monitor = pgTable("monitor", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   name: varchar("name", { length: 255 }).notNull(),
-  url: varchar("url", { length: 2048 }).notNull(),
   monitorType: monitorTypeEnum("monitor_type").notNull().default("http"),
   isActive: boolean("is_Active").default(true),
   intervalSeconds: integer("interval_seconds").notNull().default(300),

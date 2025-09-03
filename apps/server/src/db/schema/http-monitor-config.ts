@@ -1,7 +1,7 @@
 import { boolean, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { monitor } from "./monitor";
 
-export const httpMonitorConfit = pgTable("http_monitor_config", {
+export const httpMonitorConfig = pgTable("http_monitor_config", {
   monitorId: uuid("monitor_id")
     .notNull()
     .references(() => monitor.id, { onDelete: "cascade" }),
