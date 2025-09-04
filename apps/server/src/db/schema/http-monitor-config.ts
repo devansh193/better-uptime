@@ -6,8 +6,11 @@ export const httpMonitorConfig = pgTable("http_monitor_config", {
     .notNull()
     .references(() => monitor.id, { onDelete: "cascade" }),
   url: varchar("url", { length: 2048 }).notNull(),
+  secrets: varchar("secrets", { length: 255 }),
   ignoreTlsError: boolean("ignore_tls_error").notNull().default(false),
   jsonPath: varchar("json_path", { length: 500 }),
   expectedValue: text("expected_value"),
   matchMethod: varchar("match_method", { length: 20 }),
 });
+
+export type httpMonitor = typeof httpMonitorConfig.$inferSelect;

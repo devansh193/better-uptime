@@ -43,6 +43,12 @@ export const monitorRouter = router({
       .select()
       .from(monitor)
       .where(eq(monitor.userId, userId));
+    if (!all_monitors) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "No monitors found",
+      });
+    }
     return all_monitors;
   }),
   create: protectedProcedure
