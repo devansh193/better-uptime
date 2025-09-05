@@ -7,7 +7,7 @@ import { trpc } from "@/utils/trpc";
 
 export const MonitorContent = () => {
   const { data: monitors } = useSuspenseQuery(
-    trpc.website.getMany.queryOptions()
+    trpc.monitor.getAll.queryOptions()
   );
   if (monitors.length === 0) {
     return (

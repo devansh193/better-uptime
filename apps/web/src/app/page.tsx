@@ -5,8 +5,6 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 export default function Home() {
-  void queryClient.prefetchQuery(trpc.healthCheck.queryOptions());
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ErrorBoundary fallback={<p>Error.</p>}>

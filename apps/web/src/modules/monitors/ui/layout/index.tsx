@@ -1,6 +1,6 @@
-import { MonitorSidebar } from '../components/monitor-sidebar';
-import { SidebarProvider } from '@repo/ui/components/sidebar';
-import { MonitorNavbar } from '../components/monitor-navbar';
+import { MonitorSidebar } from "../components/monitor-sidebar";
+import { MonitorNavbar } from "../components/monitor-navbar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 interface Props {
   children: React.ReactNode;

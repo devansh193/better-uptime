@@ -75,7 +75,7 @@ export const MainSection = () => {
                   className="flex w-full items-center gap-2 text-sm"
                 >
                   <item.icon className="text-muted-foreground h-5 w-5" />
-                  <span>{item.title}</span>
+                  <span className="text-[15px]">{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

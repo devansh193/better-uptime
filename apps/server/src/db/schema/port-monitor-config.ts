@@ -8,3 +8,6 @@ export const portMonitorConfig = pgTable("port_monitor_config", {
   host: varchar("host", { length: 255 }).notNull(),
   port: integer("port").notNull(),
 });
+
+export type portMonitor = typeof portMonitorConfig.$inferSelect;
+export type portMonitorInput = typeof portMonitorConfig.$inferInsert;

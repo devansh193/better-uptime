@@ -5,15 +5,8 @@ import https from "https";
 import got from "got";
 
 export async function requestHttp(monitor: httpMonitor) {
-  const {
-    monitorId,
-    url,
-    ignoreTlsError,
-    jsonPath,
-    expectedValue,
-    matchMethod,
-    secrets,
-  } = monitor;
+  const { url, ignoreTlsError, jsonPath, expectedValue, matchMethod, secrets } =
+    monitor;
   try {
     if (!url) {
       throw new TRPCError({
@@ -31,7 +24,6 @@ export async function requestHttp(monitor: httpMonitor) {
           }
         : undefined,
     };
-
     const response = await got(url, config);
     const payload = payloadParse(response);
     const httpResponse = {

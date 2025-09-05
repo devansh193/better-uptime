@@ -2,6 +2,7 @@ import { boolean, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { monitor } from "./monitor";
 
 export const httpMonitorConfig = pgTable("http_monitor_config", {
+  id: uuid("http_config_id").primaryKey().defaultRandom(),
   monitorId: uuid("monitor_id")
     .notNull()
     .references(() => monitor.id, { onDelete: "cascade" }),
@@ -14,3 +15,4 @@ export const httpMonitorConfig = pgTable("http_monitor_config", {
 });
 
 export type httpMonitor = typeof httpMonitorConfig.$inferSelect;
+export type httpMonitorInput = typeof httpMonitorConfig.$inferInsert;

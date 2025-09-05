@@ -1,5 +1,5 @@
-import { MonitorLayout } from '@/src/modules/monitors/ui/layout';
-import React from 'react';
+import { MonitorLayout } from "@/modules/monitors/ui/layout";
+import React from "react";
 
 interface Props {
   children: React.ReactNode;

@@ -14,4 +14,5 @@ export const pingMonitorConfig = pgTable("ping_monitor_config", {
   ),
 });
 
-export type PingMonitor = typeof pingMonitorConfig.$inferSelect;
+export type pingMonitor = typeof pingMonitorConfig.$inferSelect;
+export type pintMonitorInput = typeof pingMonitorConfig.$inferInsert;

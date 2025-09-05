@@ -1,3 +1,4 @@
+import { pingMonitorConfig } from "@/db/schema/ping-monitor-config";
 import { httpMonitorConfig } from "@/db/schema/http-monitor-config";
 import { protectedProcedure, router } from "@/lib/trpc";
 import { monitor } from "@/db/schema/monitor";
@@ -5,6 +6,7 @@ import { TRPCError } from "@trpc/server";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import z from "zod";
+import { createMonitorInput } from "@/types";
 
 export const monitorRouter = router({
   getActive: protectedProcedure.query(async ({ ctx }) => {
@@ -52,19 +54,7 @@ export const monitorRouter = router({
     return all_monitors;
   }),
   create: protectedProcedure
-    .input(
-      z.object({
-        name: z.string().min(3),
-        monitorType: z.string().default("http"),
-        intervalSecond: z.number().default(300),
-        alertThreshold: z.number().default(5),
-        url: z.url(),
-        ignoreTlsError: z.boolean().default(false),
-        jsonPath: z.string().optional(),
-        expectedValue: z.string().optional(),
-        matchMethod: z.string().optional(),
-      })
-    )
+    .input(createMonitorInput)
     .mutation(async ({ ctx, input }) => {
       try {
         const { id: userId } = ctx.user;
@@ -79,14 +69,42 @@ export const monitorRouter = router({
               alertThreshold: input.alertThreshold,
             })
             .returning();
-          await tx.insert(httpMonitorConfig).values({
-            monitorId: newMonitor.id,
-            url: input.url,
-            ignoreTlsError: input.ignoreTlsError,
-            jsonPath: input.jsonPath,
-            expectedValue: input.expectedValue,
-            matchMethod: input.matchMethod,
-          });
+          switch (input.monitorType) {
+            case "http":
+              if (!input.url) {
+                throw new TRPCError({
+                  code: "NOT_FOUND",
+                  message: "URL is required for HTTP monitor",
+                });
+              }
+              await tx.insert(httpMonitorConfig).values({
+                monitorId: newMonitor.id,
+                url: input.url,
+                ignoreTlsError: input.ignoreTlsError,
+                jsonPath: input.jsonPath,
+                expectedValue: input.expectedValue,
+                matchMethod: input.matchMethod,
+              });
+              break;
+            case "ping":
+              if (!input.hostname) {
+                throw new TRPCError({
+                  code: "NOT_FOUND",
+                  message: "Host is required for PINT monitor",
+                });
+              }
+              await tx.insert(pingMonitorConfig).values({
+                monitorId: newMonitor.id,
+                hostname: input.hostname,
+              });
+              break;
+
+            default:
+              throw new TRPCError({
+                code: "METHOD_NOT_SUPPORTED",
+                message: `Unsupported monitor type ${input.monitorType}`,
+              });
+          }
           return newMonitor;
         });
       } catch (error) {

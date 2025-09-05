@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "my-better-t-app",
-  description: "my-better-t-app",
+  title: "Better Uptime",
+  description: "Uptime monitoring system",
 };
 
 export default function RootLayout({
